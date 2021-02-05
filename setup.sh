@@ -1,3 +1,7 @@
+# update pip
+pip install --upgrade pip setuptools
+
+# setup streamlit
 mkdir -p ~/.streamlit/
 
 echo "\
