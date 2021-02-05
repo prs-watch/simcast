@@ -61,12 +61,15 @@ def __get_statcast_data(start_dt, end_dt, player_id):
 @st.cache(suppress_st_warning=True)
 def __get_bb_k_rate(first_name, last_name, year):
     # K・BB%は不変を仮定
-    bs = pb.batting_stats(f"{year}", qual=0)
+    bs = __get_batting_stats(year)
     bb_k_rate = bs[bs["Name"] == f"{first_name} {last_name}"][["BB%", "K%"]]
     bb_rate = bb_k_rate["BB%"].values[0]
     k_rate = bb_k_rate["K%"].values[0]
     return bb_rate, k_rate
 
+@st.cache(suppress_st_warning=True)
+def __get_batting_stats(year):
+    return pb.batting_stats(f"{year}", qual=0)
 
 def simulate(first_name, last_name, year):
     player_ids = __search_playerid(first_name, last_name)
