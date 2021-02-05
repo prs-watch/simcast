@@ -7,6 +7,7 @@ import pickle
 import numpy as np
 import plotly.express as px
 import os
+import itertools
 
 # 定数
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -171,10 +172,11 @@ def simulate(first_name, last_name, year):
         fig.layout["legend"]["title"]["text"] = "打球種別"
         st.plotly_chart(fig, use_container_width=True)
 
+    st.markdown("## 累積分布関数")
     ls_column, la_column = st.beta_columns(2)
     with ls_column:
-        st.markdown("## 打球速度分布")
-        lsy = stat.skewnorm.pdf(LAUNCH_SPEED_RANGE, lsa, lsloc, lsscale)
+        st.markdown("### 打球速度")
+        lsy = [i for i in itertools.accumulate(stat.skewnorm.pdf(LAUNCH_SPEED_RANGE, lsa, lsloc, lsscale))]
         fig = px.line(
             x=LAUNCH_SPEED_RANGE, y=lsy, labels={
                 "x": "打球速度", "y": "確率"
@@ -183,8 +185,8 @@ def simulate(first_name, last_name, year):
         st.plotly_chart(fig, use_container_width=True)
 
     with la_column:
-        st.markdown("## 打球角度分布")
-        lay = stat.skewnorm.pdf(LAUNCH_ANGLE_RANGE, laa, laloc, lascale)
+        st.markdown("### 打球角度")
+        lay = [i for i in itertools.accumulate(stat.skewnorm.pdf(LAUNCH_ANGLE_RANGE, laa, laloc, lascale))]
         fig = px.line(
             x=LAUNCH_ANGLE_RANGE, y=lay, labels={
                 "x": "打球角度", "y": "確率"
