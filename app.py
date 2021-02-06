@@ -260,6 +260,32 @@ def compare(from_first_name, from_last_name, from_year, to_first_name, to_last_n
             index={"mean": "平均値", "min": "最小値", "max": "最大値", "50%": "中央値"}
         ))
 
+    st.markdown("## シミュレーション比較グラフ")
+    with st.beta_container():
+        # describeのマージ
+        from_mean = from_describe.query("index == 'mean'").reset_index()
+        to_mean = to_describe.query("index == 'mean'").reset_index()
+        from_mean["name"] = f"{from_first_name} {from_last_name}"
+        to_mean["name"] = f"{to_first_name} {to_last_name}"
+        from_mean = from_mean.set_index("name")
+        to_mean = to_mean.set_index("name")
+        m = pd.concat([from_mean, to_mean])
+        target = list(m.columns)
+        target.remove("index")
+        m = m[target]
+        mn=(m / m.sum()) * 100
+        mnt = mn.T.reset_index()
+        mntm = pd.melt(mnt, id_vars="events", var_name="name", value_name="val")
+        fig = px.bar(
+            mntm, x="val", y="events", color="name",
+            labels={
+                "val": "比率", "events": "イベント"
+            }
+        )
+        fig = fig.update_traces(hovertemplate=None)
+        fig = fig.update_layout(hovermode="x", legend_title="選手名")
+        st.plotly_chart(fig, use_container_width=True)
+
     st.markdown("## シミュレーショングラフ")
     sim_graph_left, sim_graph_right = st.beta_columns(2)
     with sim_graph_left:
@@ -272,7 +298,7 @@ def compare(from_first_name, from_last_name, from_year, to_first_name, to_last_n
         )
         fig.layout["legend"]["title"]["text"] = "結果"
         st.plotly_chart(fig, use_container_width=True)
-    
+
     with sim_graph_right:
         st.markdown(f"### {to_first_name} {to_last_name}, {to_year}")
         fig = px.line(
