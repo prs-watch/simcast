@@ -265,7 +265,7 @@ def compare(from_first_name, from_last_name, from_year, to_first_name, to_last_n
     with sim_graph_left:
         st.markdown(f"### {from_first_name} {from_last_name}, {from_year}")
         fig = px.line(
-            from_sim_vertical.replace(LABEL_MAP), x="pattern", y="predict", color="events",
+            from_sim_vertical.replace(LABEL_MAP), x="pattern", y="predict", color="events", range_y=[0, 500],
             labels={
                 "pattern": "試行回", "predict": "シミュレーション値（単位: 本）"
             }
@@ -276,7 +276,7 @@ def compare(from_first_name, from_last_name, from_year, to_first_name, to_last_n
     with sim_graph_right:
         st.markdown(f"### {to_first_name} {to_last_name}, {to_year}")
         fig = px.line(
-            to_sim_vertical.replace(LABEL_MAP), x="pattern", y="predict", color="events",
+            to_sim_vertical.replace(LABEL_MAP), x="pattern", y="predict", color="events", range_y=[0, 500],
             labels={
                 "pattern": "試行回", "predict": "シミュレーション値（単位: 本）"
             }
