@@ -386,6 +386,9 @@ def compare(from_first_name, from_last_name, from_year, to_first_name, to_last_n
         st.plotly_chart(fig, use_container_width=True)
 
 def set_single_search_sidebar():
+    st.sidebar.markdown("[compareモードへ](https://sim-cast.herokuapp.com/?mode=compare)")
+    st.sidebar.markdown("# :mag_right: シミュレーション条件")
+
     st.sidebar.markdown("## :baseball: 選手情報")
     first_name = st.sidebar.text_input("名", "Trea")
     last_name = st.sidebar.text_input("姓", "Turner")
@@ -398,6 +401,9 @@ def set_single_search_sidebar():
             simulate(first_name, last_name, year)
     
 def set_compare_sidebar():
+    st.sidebar.markdown("[シミュレーションモードへ](https://sim-cast.herokuapp.com)")
+    st.sidebar.markdown("# :mag_right: シミュレーション条件")
+
     st.sidebar.markdown("## 比較元")
     from_first_name = st.sidebar.text_input("名", "Trea")
     from_last_name = st.sidebar.text_input("姓", "Turner")
@@ -439,9 +445,6 @@ st.subheader("Created by [@hctaw_srp](https://twitter.com/hctaw_srp)")
 # 固定文言
 st.markdown(INFO)
 st.warning(WARN)
-
-# サイドバー
-st.sidebar.markdown("# :mag_right: シミュレーション条件")
 
 params = st.experimental_get_query_params()
 if not params:
