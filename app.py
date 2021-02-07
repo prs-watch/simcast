@@ -13,8 +13,8 @@ import plotly.graph_objects as go
 # 定数
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 YEARS = [2017, 2018, 2019, 2020]
-with open(f"{APP_ROOT}/resources/lgr.pickle", "rb") as f:
-    LGR = pickle.load(f)
+with open(f"{APP_ROOT}/resources/svm.pickle", "rb") as f:
+    SVM = pickle.load(f)
 with open(f"{APP_ROOT}/resources/expect.pickle", "rb") as f:
     BB_TYPE_COUNT = pickle.load(f)
 LAUNCH_SPEED_RANGE = np.linspace(0, 150, 150)
@@ -119,7 +119,7 @@ def __simulate(df, first_name, last_name, year):
         d["pattern"] = i
         sim = pd.concat([sim, d])
     
-    sim_lsa = LGR.predict(sim[["ls", "la"]])
+    sim_lsa = SVM.predict(sim[["ls", "la"]])
     sim["launch_speed_angle"] = sim_lsa
 
     sim_by_p_lsa = sim.groupby(["pattern", "launch_speed_angle"]).count().reset_index()[["pattern", "launch_speed_angle", "ls"]].rename(columns={"ls": "count"})
