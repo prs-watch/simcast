@@ -265,8 +265,8 @@ def compare(from_first_name, from_last_name, from_year, to_first_name, to_last_n
         # describeのマージ
         from_mean = from_describe.query("index == 'mean'").reset_index()
         to_mean = to_describe.query("index == 'mean'").reset_index()
-        from_mean["name"] = f"{from_first_name} {from_last_name}"
-        to_mean["name"] = f"{to_first_name} {to_last_name}"
+        from_mean["name"] = f"{from_first_name} {from_last_name}, {from_year}"
+        to_mean["name"] = f"{to_first_name} {to_last_name}, {to_year}"
         from_mean = from_mean.set_index("name")
         to_mean = to_mean.set_index("name")
         m = pd.concat([from_mean, to_mean])
